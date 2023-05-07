@@ -18,10 +18,10 @@ const getAllContacts = async () => {
 	}
 };
 
-const getContactById = async (contactId) => {
+const getContactById = async (id) => {
 	try {
 		const contacts = await getAllContacts();
-		const result = contacts.find((item) => item.id === contactId);
+		const result = contacts.find((item) => item.id === id);
 		return result || null;
 	} catch (error) {
 		console.error(error.message);
@@ -40,14 +40,14 @@ const addContact = async (data) => {
 	}
 };
 
-const updateContactById = async (contactId, data) => {
+const updateContactById = async (id, data) => {
 	try {
 		const contacts = await getAllContacts();
-		const index = contacts.findIndex((item) => item.id === contactId);
+		const index = contacts.findIndex(item => item.id === id);
 		if (index === -1) {
 			return null;
 		}
-		contacts[index] = { contactId, ...data };
+		contacts[index] = { id, ...data };
 		await updateContacts(contacts);
 		return contacts[index];
 	} catch (error) {
@@ -55,10 +55,10 @@ const updateContactById = async (contactId, data) => {
 	}
 };
 
-const removeContact = async (contactId) => {
+const removeContact = async (id) => {
 	try {
 		const contacts = await getAllContacts();
-		const index = contacts.findIndex((item) => item.id === contactId);
+		const index = contacts.findIndex(item => item.id === id);
 		if (index === -1) {
 			return null;
 		}

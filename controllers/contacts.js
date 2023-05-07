@@ -7,8 +7,8 @@ const getAllContacts = async (req, res) => {
 };
 
 const getContactById = async (req, res) => {
-	const { contactId } = req.params;
-	const result = await contacts.getContactById(contactId);
+	const { id } = req.params;
+	const result = await contacts.getContactById(id);
 	if (!result) {
 		throw HttpError(404, 'Not Found');
 	}
@@ -21,8 +21,8 @@ const addContact = async (req, res) => {
 };
 
 const updateContactById = async (req, res) => {
-	const { contactId } = req.params;
-	const result = await contacts.updateContactById(contactId, req.body);
+	const { id } = req.params;
+	const result = await contacts.updateContactById(id, req.body);
 	if (!result) {
 		throw HttpError(404, 'Not Found');
 	}
@@ -30,8 +30,8 @@ const updateContactById = async (req, res) => {
 };
 
 const removeContact = async (req, res) => {
-	const { contactId } = req.params;
-	const result = await contacts.removeContact(contactId);
+	const { id } = req.params;
+	const result = await contacts.removeContact(id);
 	if (!result) {
 		throw HttpError(404, 'Not Found');
 	}
