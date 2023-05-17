@@ -3,6 +3,11 @@ const Joi = require('joi');
 
 const { handleMongooseError } = require('../helpers');
 
+// eslint-disable-next-line no-useless-escape
+const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
 const contactSchema = new Schema({
 	name: {
 		type: String,
@@ -10,17 +15,22 @@ const contactSchema = new Schema({
 	},
 	email: {
 		type: String,
-		// match: 
+		match: emailRegexp,
 		required: true
 	},
 	phone: {
 		type: String,
-		// match: 
+		match: phoneRegex,
 		required: true
 	},
 	favorite: {
 		type: Boolean,
 		default: false,
+	},
+	owner: {
+		type: Schema.Types.ObjectId,
+		ref: 'user',
+		required: true
 	}
 },
 	{
