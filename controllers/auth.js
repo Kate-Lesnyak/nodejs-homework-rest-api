@@ -96,20 +96,9 @@ const updateAvatar = async (req, res) => {
 	const filename = `${_id}_${originalname}`;
 	const resultUpload = path.join(avatarsDir, filename);
 
-	// Jimp.read(tempUpload).then(avatar => {
-	// 	return avatar
-	// 		.resize(250, 250, Jimp.RESIZE_BEZIER)
-	// 		.write(resultUpload)
-	// }).catch(error => console.log(error.message));
-
-	Jimp.read(tempUpload, (err, avatar) => {
-		if (err) {
-			throw err;
-		};
-		avatar
-			.resize(250, 250, Jimp.RESIZE_BEZIER)
-			.write(resultUpload);
-	});
+	const avatar = await Jimp.read(tempUpload);
+	avatar.autocrop().cover(250, 250, Jimp.HORIZONTAL_ALIGN_CENTER || Jimp.VERTICAL_ALIGN_MIDDLE).write(resultUpload);
+	// avatar.resize(250, 250, Jimp.RESIZE_BEZIER).write(resultUpload);
 
 	await fs.rename(tempUpload, resultUpload);
 
@@ -121,41 +110,6 @@ const updateAvatar = async (req, res) => {
 		avatarURL,
 	});
 };
-
-
-
-// Jimp.read("test.jpg", function (err, test) {
-// 	if (err) throw err;
-// 	test.resize(256, 256)
-// 		.quality(50)
-// 		.write(__dirname + "./new.jpg");
-// });
-
-// var appRoot = require('app-root-path');
-// var imgName = new Date().getTime().toString();
-// var savePath = appRoot + '/uploads/' + imgName;
-
-// Jimp.read("test.jpg", function (err, image) {
-// 	if (err) throw err;
-// 	image.resize(256, 256)
-// 		.quality(50)
-// 		.write(savePath);
-
-// save savePath to database
-
-// });
-
-// async function main() {
-// 	const image = await Jimp.read(
-// 		'https://media.geeksforgeeks.org/wp-content/uploads/20190328185307/gfg28.png');
-// 	// rotate Function having rotation as 55
-// 	image.resize(323, 421)
-// 		.write('resize1.png');
-// }
-
-// main();
-// console.log("Image Processing Completed");
-
 
 module.exports = {
 	register: ctrlWrapper(register),
